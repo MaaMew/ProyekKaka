@@ -4,21 +4,23 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class UserController extends Controller
+class ProductController extends Controller
 {
-    public function create()
+    private $products = [
+        1 => ['name' => 'Kaos Laravel', 'price' => 150000, 'jenis'=> 'Pakaian', 'merek' => 'Messi', 'material' => 'kain'],
+        2 => ['name' => 'Stiker Koding', 'price' => 25000, 'jenis'=> 'Pakaian', 'merek' => 'Lamine', 'material' => 'stiker'],
+        3 => ['name' => 'Notebook Dev', 'price' => 50000, 'jenis'=> 'Pakaian', 'merek' => 'Raphinha', 'material' => 'kertas'],
+    ];
+
+    public function index()
     {
-        return view('user.index');
+        $products = $this->products;
+        return view('products.index', compact('products'));
     }
+        public function show($id)
 
-    public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:100',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:6|confirmed',
-        ]);
-
-        return redirect()->back()->with('success', 'Pesan Anda telah dikirim!');
+        $products = $this->products[$id];
+        return view('products.detail', compact('products'));
     }
 }
